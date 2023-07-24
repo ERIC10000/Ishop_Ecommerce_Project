@@ -2658,6 +2658,23 @@ In this section we will be displaying the vendors products on a table format
 ```
 The route /view_products has been added to the button to display products of a particular vendor
 
+### Categories column
+We have opted for select rather than input text on on the column product_category
+This is to allow us to manage categories that we can sisplay on the screen
+#### Implement the code below on vendor_profile.html, on the form to request for category and replace with the code below below
+
+```
+                            <label for="category" class="form-label"> Product Category </label>
+                            <select name="category" id="category" class="form-control">
+                                <option value="phones">Phones</option>
+                                <option value="laptops">Laptops</option>
+                                <option value="shoes">Shoes</option>
+                                <option value="food">Food</option>
+                                <option value="gaming">Games and Consoles</option>
+                            </select>
+```
+
+
 
 
 
