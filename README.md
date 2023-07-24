@@ -2583,6 +2583,77 @@ def view_products():
 ```
 As you can see in the code a bove we are fetching products based on the vendor_id from the sessions
 
+## Implement view_products.html template
+In this section we will be displaying the vendors products on a table format
+### Implement the code below
+
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Products</title>
+
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="../static/js/bootstrap.js"></script>
+
+    <style>
+        .icons-edit {
+            font-size: 25px;
+            color: green;
+        }
+
+        .icons-delete {
+            font-size: 25px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <table class="table table-striped">
+            <tr>
+                <th>Product Name</th>
+                <th>Product Cost</th>
+                <th>Product Category</th>
+                <th>Product Image</th>
+                <th>Date Added</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+
+            {% for product in products %}
+            <tr>
+                <td>{{product[1]}}</td>
+                <td> Kshs {{product[3]}}</td>
+                <td>{{product[5]}}</td>
+                <td> <img src="../static/products/{{product[7]}}" alt="" width="150px" height="150px"
+                        style="border-radius: 15px;object-fit: cover;"> </td>
+                <td>{{product[8]}}</td>
+                <td> <a href="#"> <i class="fa fa-trash icons-delete"></i> </a> </td>
+                <td> <a href="#"> <i class="fa fa-pencil icons-edit"></i></a></td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+
+</body>
+
+</html>
+```
+
+
+
 
 
 
