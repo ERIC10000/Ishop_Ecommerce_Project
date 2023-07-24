@@ -2554,6 +2554,35 @@ text-align: center;
 
 ```
 
+# Friday Work: Vendor View Products Features
+## Implement the route /view_products
+In this route we are fetching products from the products table using vendor id
+Before the route is implemented : confirm on the route /vendor_login that session['vendor_id'] is given to a user after successful login
+
+### Implement the route below:
+```
+@app.route('/view_products')
+def view_products():
+    connection = pymysql.connect(
+        host='localhost', user='root', password='', database='IshopDB')
+
+    cursor = connection.cursor()
+
+    sql = "select * from products where vendor_id = %s"
+
+    cursor.execute(sql, session['vendor_id'])
+
+    count = cursor.rowcount
+
+    if count == 0:
+        return render_template('view_products.html', message='No products available')
+
+    else:
+        data = cursor.fetchall()
+        return render_template('view_products.html', products=data)
+```
+As you can see in the code a bove we are fetching products based on the vendor_id from the sessions
+
 
 
 
