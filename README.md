@@ -2652,6 +2652,12 @@ In this section we will be displaying the vendors products on a table format
 </html>
 ```
 
+### Proceed to vendor_profile.html page and locate the button 'view products'
+```
+<p><a href="/view_products" class="btn btn-outline-dark">View Products</a></p>
+```
+The route /view_products has been added to the button to display products of a particular vendor
+
 
 
 
