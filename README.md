@@ -2787,6 +2787,32 @@ We locate button on the home page to buy products and add the route to buy produ
 
 ## Single Item and Routes with Parameters
 
+## User Regsiter Route
+```
+@app.route('/user_register', methods = ['POST', 'GET'])
+def user_register():
+
+    if request.method == 'POST':
+        username = request.form['username']
+        phone = request.form['phone']
+        password = request.form['password']
+
+        connection = pymysql.connect(
+        host='localhost', user='root', password='', database='IshopDB')
+
+        cursor = connection.cursor()
+        data = (username, phone, password)
+
+        sql = "insert into users (username, phone, password) values (%s, %s, %s)"
+        cursor.execute(sql, data)
+        connection.commit()
+
+        return render_template('user_register.html', message = "Success!")
+    else:
+        return render_template('user_register.html', message = "Register Here")
+```
+
+
 
 
 
