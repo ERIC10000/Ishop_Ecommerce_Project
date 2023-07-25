@@ -2673,6 +2673,35 @@ This is to allow us to manage categories that we can sisplay on the screen
                                 <option value="gaming">Games and Consoles</option>
                             </select>
 ```
+## Buy Product Feature:
+Implement the route below to fetch products from the DAtabase based on their categories
+
+```
+@app.route('/buy_products')
+def buy_products():
+    connection = pymysql.connect(
+        host='localhost', user='root', password='', database='IshopDB')
+
+    # phones
+    cursor_phones = connection.cursor()
+    sql_phones = "select * from products where product_category = 'phones' "
+    cursor_phones.execute(sql_phones)
+    phones = cursor_phones.fetchall()
+
+    # laptops
+    cursor_laptops = connection.cursor()
+    sql_laptops = "select * from products where product_category = 'laptops'"
+    cursor_laptops.execute(sql_laptops)
+    laptops = cursor_laptops.fetchall()
+
+    # shoes
+    cursor_shoes = connection.cursor()
+    sql_shoes = "select * from products where product_category = 'shoes'"
+    cursor_shoes.execute(sql_shoes)
+    shoes = cursor_shoes.fetchall()
+
+    return render_template('buy_products.html', phones=phones, laptops=laptops, shoes=shoes)
+```
 
 
 
