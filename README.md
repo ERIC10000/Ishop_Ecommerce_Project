@@ -2785,6 +2785,8 @@ We locate button on the home page to buy products and add the route to buy produ
  <a href="/buy_products" class="btn ">Buy Products</a>
 ```
 
+## Single Item and Routes with Parameters
+
 
 
 
