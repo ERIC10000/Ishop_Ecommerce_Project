@@ -2778,6 +2778,13 @@ This html templates display products from the databse based on categories using 
 </html>
 
 ```
+## Add /buy_products route on the index.html button
+We locate button on the home page to buy products and add the route to buy products
+
+```
+ <a href="/buy_products" class="btn ">Buy Products</a>
+```
+
 
 
 
