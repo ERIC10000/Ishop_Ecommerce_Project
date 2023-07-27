@@ -3391,6 +3391,31 @@ Step1: "feedback.html"
 </html>
 ```
 
+## /post_feeback Route
+Procced to app.py and implement the route below
+
+```
+@app.route('/post_feedback',  methods=['POST', 'GET'])
+def post_feedback():
+    if request.method == 'POST':
+        feedback_desc = request.form['feedback_desc']
+
+        connection = pymysql.connect(
+        host='localhost', user='root', password='', database='IshopDB')
+        cursor = connection.cursor()
+
+        sql = "insert into feedback (feedback_desc) values (%s)"
+
+        cursor.execute(sql, feedback_desc)
+        connection.commit()
+
+        return render_template('feedback.html', message = 'Feedback Sent Successfully’')
+        
+    else:
+        return render_template('feedback.html')
+
+```
+
 
  
 
