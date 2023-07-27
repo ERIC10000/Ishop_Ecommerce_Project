@@ -3416,6 +3416,66 @@ def post_feedback():
 
 ```
 
+## Feedback: View FeedBacks
+### view_feedback.html file
+
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+</head>
+
+<body>
+    {{message}}
+    <table class="table table-primary table-striped text-center">
+        <tr>
+            <th>FeedBack</th>
+            <th>Date Added</th>
+        </tr>
+
+        {% for record in feedback %}
+        <tr>
+            <td>{{record[1]}}</td>
+            <td>{{record[2]}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>
+
+```
+### In the app.py implement '/view_feedback'
+Use the code snippet below
+
+```
+@app.route('/view_feedback')
+def view_feedback():
+        connection = pymysql.connect(
+        host='localhost', user='root', password='', database='IshopDB')
+
+        cursor = connection.cursor()
+
+        sql = "select * from feedback"
+        cursor.execute(sql)
+        count = cursor.rowcount
+        if count == 0:
+            return render_template('view_feedback.html', message = 'No feedback Available')
+        else:
+            feedback = cursor.fetchall()
+            return render_template('view_feedback.html', feedback = feedback)
+```
+
+
 
  
 
