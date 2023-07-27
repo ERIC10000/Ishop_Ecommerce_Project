@@ -3355,6 +3355,43 @@ def mpesa_payment():
         return render_template('mpesa_payment.html')
 ```
 
+## Feedback: Save Feedback
+Step1: "feedback.html"
+
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container bg-info py-5 text-center">
+        <h5>Please Leave Your Feedback here</h5>
+        {{message}}
+        <form action="/post_feedback" method="post">
+            <textarea name="feedback_desc" id="" cols="30" rows="10" class="form-control">
+
+            </textarea>
+
+            <input type="submit" class="btn btn-success mt-4" value="Send Feedback">
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>
+```
+
+
  
 
 
