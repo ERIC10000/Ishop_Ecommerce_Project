@@ -3475,6 +3475,151 @@ def view_feedback():
             return render_template('view_feedback.html', feedback = feedback)
 ```
 
+## Update Command:
+We will be updating vendors products based on product_id which uniquely identifies it
+
+### Step1:
+Implement the route below:
+NB)) 1. When the user clicks on the update icon, we fetch thta product based on the id it has then we return it to a form
+     2. When the user has filled the data, we now run the update command
+Use the code sniipet below on your app.py file
+
+```
+@app.route('/update/<product_id>', methods=['POST', 'GET'])
+def update_product(product_id):
+    if request.method == 'POST':
+        product_name = request.form['name']
+        product_desc = request.form['desc']
+        product_cost = request.form['cost']
+        product_discount = request.form['discount']
+        product_category = request.form['category']
+        product_brand = request.form['brand']
+        image_url = request.files['image']
+        image_url.save('static/products/' + image_url.filename)
+
+        vendor_id = request.form['vendor']
+
+        connection = pymysql.connect(
+            host='localhost', user='root', password='', database='IshopDB')
+        
+        cursor = connection.cursor()
+        sql = "update products set product_name = %s, product_desc=%s, product_cost = %s, product_discount = %s, product_category = %s, product_brand = %s, image_url = %s where product_id = %s"
+
+        data = (product_name, product_desc, product_cost, product_discount, product_category, product_brand, image_url.filename, product_id)
+
+        cursor.execute(sql, data)
+        connection.commit()
+
+        return redirect('/view_products')
+
+    else:
+        connection = pymysql.connect(
+            host='localhost', user='root', password='', database='IshopDB')
+
+        cursor = connection.cursor()
+        sql = "select * from products where product_id = %s"
+        cursor.execute(sql, product_id)
+        data = cursor.fetchone()
+        return render_template('update.html', data=data)
+
+```
+
+### Step 2: Update.html Template
+```
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container bg-info">
+        <div class="modal-dialog modal-scrollable p-3 m-3 ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Update Your Produuct</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- end header -->
+                <div class="modal-body">
+                    <div class="card shadow m-3 p-3 bg-info">
+                        <h5 class="m-2">{{message}}</h5>
+                        <form action="http://127.0.0.1:5000/update/{{data[0]}}" method="post"
+                            enctype="multipart/form-data">
+
+                            <label for="name" class="form-label"> Product Name </label>
+                            <input type="text" name="name" id="name" class="form-control" value="{{data[1]}}">
+
+                            <label for="desc" class="form-label"> Product Description </label>
+                            <textarea name="desc" id="desc" cols="30" rows="10"
+                                class="form-control">{{data[2]}}</textarea>
+
+                            <label for="cost" class="form-label"> Product Cost </label>
+                            <input type="number" name="cost" id="cost" class="form-control" value="{{data[3]}}">
+
+
+                            <label for="discount" class="form-label"> Product Discount </label>
+                            <input type="number" name="discount" id="discount" class="form-control" value="{{data[4]}}">
+
+
+                            <label for="category" class="form-label"> Product Category </label>
+                            <select name="category" id="category" class="form-control" value="{{data[5]}}">
+                                <option value="phones">Phones</option>
+                                <option value="laptops">Laptops</option>
+                                <option value="shoes">Shoes</option>
+                                <option value="food">Food</option>
+                                <option value="gaming">Games and Consoles</option>
+                                <option value="cosmetics">Cosmetics</option>
+                            </select>
+
+                            <label for="brand" class="form-label"> Product Brand </label>
+                            <input type="text" name="brand" id="brand" class="form-control" value="{{data[6]}}">
+
+                            <label for="image" class="form-label"> Product Image </label>
+                            <input type="file" name="image" id="image" class="form-control" value="{{data[7]}}"><br>
+
+                            <input type="number" name="vendor" id="vendor" value="{{session['vendor_id']}}"
+                                class="form-control"><br>
+
+                            <input type="submit" value="Update Product" class="btn btn-success"><br>
+
+                        </form>
+
+                    </div>
+
+                </div>
+                <!-- end body -->
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
+
+```
+### Step3: The Update Icon
+Procced to the file view_products.html where we have the update icon, and add the route to implement the update operation.
+Use the code snippet below
+
+```
+ <td> <a href="/update/{{product[0]}}"> <i class="fa fa-pencil icons-edit"></i></a></td>
+```
+
+## Please Make Sure You also Update the Image
+
 
 
  
