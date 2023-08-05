@@ -3409,6 +3409,46 @@ def user_register():
 </html>
 ```
 
+## User Login and User Logout Route:
+Implement the route below on your app.py file
+
+```
+@app.route('/user_login', methods=['POST', 'GET'])
+def user_login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        connection = pymysql.connect(
+            host='userErick125918.mysql.pythonanywhere-services.com', user='userErick125918', password='Modcom#2023', database='userErick125918$default')
+
+        cursor = connection.cursor()
+
+        sql = 'select * from users where username = %s and password = %s'
+        data = (username, password)
+        cursor.execute(sql, data)
+
+        count = cursor.rowcount
+        if count == 0:
+            return render_template('user_login.html', message='Invalid Credentials')
+        else:
+            # session: Store Information About a specific user
+            user_record = cursor.fetchone()
+            session['user_key'] = user_record[1]
+            session['phone'] = user_record[2]
+
+            return redirect('/buy_products')
+    else:
+        return render_template('user_login.html', message='Please Login Here')
+
+
+@app.route('/user_logout')
+def user_logout():
+    if 'user_key' in session:
+        session.clear()
+    return redirect('/user_login')
+```
+
 ## Payment Integration
 We have different types of payment systems for instance Mpesa, VISA Payment, PayPal
 In this project we will implement Mpesa Payment
