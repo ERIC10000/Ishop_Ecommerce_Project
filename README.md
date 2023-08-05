@@ -2786,6 +2786,36 @@ We locate button on the home page to buy products and add the route to buy produ
 ```
 
 ## Single Item and Routes with Parameters
+Here we use the prduct_id in the route parameter to fetch that particular product uniquely from the database
+Use the code below:
+```
+@app.route('/single_item/<product_id>')
+def single_item(product_id):
+    connection = pymysql.connect(
+            host='userErick125918.mysql.pythonanywhere-services.com', user='userErick125918', password='Modcom#2023', database='userErick125918$default')
+
+    cursor = connection.cursor()
+
+    sql = "select * from products where product_id = %s"
+
+    cursor.execute(sql, product_id)
+
+    single_record = cursor.fetchone()
+
+
+    
+
+    category = single_record[5]
+
+    cursor_similar = connection.cursor()
+    sql_similar = "select * from products where product_category = %s ORDER BY RAND() limit 3"
+    cursor_similar.execute(sql_similar, category)
+
+    similar_products = cursor_similar.fetchall()
+
+    return render_template('single_item.html', single_record=single_record, similar_products=similar_products)
+```
+
 
 ## User Regsiter Route
 ```
