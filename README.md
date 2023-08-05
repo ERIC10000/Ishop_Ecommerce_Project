@@ -3449,7 +3449,7 @@ def user_logout():
     return redirect('/user_login')
 ```
 
-## Use the 'user_logout.html' template below
+## Use the 'user_login.html' template below
 ```
 <!DOCTYPE html>
 <html lang="en">
