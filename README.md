@@ -1,3 +1,76 @@
+# Test
+```
+from flask import *
+import pymysql
+
+
+def db_connection():
+    return pymysql.connect(host='localhost', user='root', password='', database='Users')
+
+
+
+app = Flask(__name__)
+app.secret_key = 'ghfbvhduighvuifndbnfjkdbn'
+
+@app.route('/register', methods = ['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        connection = db_connection()
+
+        cursor = connection.cursor()
+
+        data = (username, email, password)
+
+        sql = 'insert into users  (username, email, password) values (%s, %s, %s)'
+
+        cursor.execute(sql, data)
+        connection.commit()
+        return render_template('loginsignup.html', msg = 'Successfully Registred')
+    else:
+        return render_template('loginsignup.html', msg = 'We are happy to have you with us.')
+    
+@app.route('/login', methods = ['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        connection = db_connection()
+
+        cursor = connection.cursor()
+
+        data = (email, password)
+
+        sql = 'select * from users where email = %s and password= %s'
+
+        cursor.execute(sql, data)
+        count = cursor.rowcount
+        if count == 0:
+            return render_template('loginsignup.html', msg = 'Invalid Credentials')
+        else:
+            user = cursor.fetchone()
+            session['key'] = user[1]
+            return redirect('/')
+
+    else:
+        return render_template('loginsignup.html', msg = 'We are happy to have you with us.')
+    
+    
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+
+app.run(debug=True)
+```
+
+
+
+
 # Ishop_Ecommerce_Project
 Ecommerce Application using Flask Python Framework
 ##This project will be using Flask Framework to create an ecommeerce Application with the following features
